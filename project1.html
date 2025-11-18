@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Card & Smart Calculator</title>
+<style>
+* { box-sizing: border-box; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background: linear-gradient(135deg, #6b3e47 0%, #a4556e 100%); color:#333; line-height:1.6; padding:20px; min-height:100vh; }
+.container { max-width:900px; margin:0 auto; background-color: rgba(255,255,255,0.95); border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.2); overflow:hidden; }
+header { background: linear-gradient(to right,#6b3e47,#a4556e); color:white; text-align:center; padding:25px 20px; }
+h1 { font-size:2.2rem; margin-bottom:10px; }
+.subtitle { font-size:1.1rem; opacity:0.9; }
+.content { display:flex; flex-wrap:wrap; padding:20px; }
+.form-section, .results-section { flex:1; min-width:300px; padding:20px; }
+.form-group { margin-bottom:20px; }
+label { display:block; margin-bottom:8px; font-weight:600; color:#6b3e47; }
+input { width:100%; padding:12px 15px; border:2px solid #ddd; border-radius:8px; font-size:16px; transition:border-color 0.3s; }
+input:focus { border-color:#a4556e; outline:none; }
+.buttons { display:flex; gap:10px; margin-top:25px; }
+button { flex:1; padding:14px; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.3s; }
+#createCard { background:linear-gradient(to right,#6b3e47,#a4556e); color:white; }
+#calculate { background:linear-gradient(to right,#a4556e,#e8b4d4); color:white; }
+button:hover { transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+.card { background:white; border-radius:10px; padding:20px; box-shadow:0 5px 15px rgba(0,0,0,0.05); margin-bottom:20px; border-left:5px solid #a4556e; }
+.card h3 { color:#6b3e47; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px; }
+.user-card { background: linear-gradient(to right,#f9f2f5,#f0e1e8); }
+.calculation-results { background: linear-gradient(to right,#f9f2f5,#f0e1e8); }
+.result-item { margin-bottom:10px; padding:8px 12px; background: rgba(255,255,255,0.7); border-radius:6px; }
+.highlight { color:#a4556e; font-weight:bold; }
+footer { text-align:center; padding:20px; background-color:#f8f9fa; color:#6c757d; font-size:0.9rem; border-top:1px solid #e9ecef; }
+@media (max-width:768px){ .content { flex-direction:column; } }
+</style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>User Card & Smart Calculator</h1>
+        <p class="subtitle">A JavaScript project covering basic concepts</p>
+    </header>
+    
+    <div class="content">
+        <div class="form-section">
+            <div class="form-group">
+                <label for="userName">User Name:</label>
+                <input type="text" id="userName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="userAge">Age:</label>
+                <input type="number" id="userAge" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <label for="number1">First Number:</label>
+                <input type="number" id="number1" placeholder="Enter first number">
+            </div>
+            <div class="form-group">
+                <label for="number2">Second Number:</label>
+                <input type="number" id="number2" placeholder="Enter second number">
+            </div>
+            <div class="buttons">
+                <button id="createCard">Create Welcome Card</button>
+                <button id="calculate">Perform Operations</button>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <div class="card user-card">
+                <h3>User Card</h3>
+                <div id="userCardContent">User information will appear here...</div>
+            </div>
+            <div class="card calculation-results">
+                <h3>Calculation & Comparison Results</h3>
+                <div id="calculationResults">Operation results will appear here...</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>JavaScript project covering: console.log, comments, var/let/const, data types, operators</p>
+    </footer>
+</div>
+
+<script>
+// ======= COMMENTS & LOGGING =======
+console.log("Project loaded successfully!");
+
+// ======= VARIABLES =======
+var welcomeMessage = "Welcome to our project!"; 
+let userName = "";
+let userAge = 0;
+const APP_NAME = "User Card & Smart Calculator"; 
+const PI = 3.14159;
+
+// ======= STRING OPERATORS =======
+function createWelcomeMessageTemplate(name, age){
+    return `Hello ${name}! Your age is ${age} years.`; 
+}
+
+// ======= ARITHMETIC OPERATORS =======
+function performArithmeticOperations(a,b){
+    return {
+        addition: a+b,
+        subtraction: a-b,
+        multiplication: a*b,
+        division: b!==0 ? a/b : "Division by 0",
+        modulus: b!==0 ? a%b : "Modulus by 0",
+        exponentiation: a**b
+    };
+}
+
+// ======= ASSIGNMENT OPERATORS =======
+function demonstrateAssignmentOperators(a,b){
+    let result = "";
+    let x = a;
+    result += `x = ${x}<br>`;  
+    x += b; result += `x += ${b} → x = ${x}<br>`;
+    x -= b; result += `x -= ${b} → x = ${x}<br>`;
+    x *= b; result += `x *= ${b} → x = ${x}<br>`;
+    x /= b; result += `x /= ${b} → x = ${x}<br>`;
+    return result;
+}
+
+// ======= COMPARISON OPERATORS =======
+function performComparisonOperations(a,b){
+    let res="";
+    res += `${a} == ${b} → ${a==b}<br>`;
+    res += `${a} === ${b} → ${a===b}<br>`;
+    res += `${a} != ${b} → ${a!=b}<br>`;
+    res += `${a} !== ${b} → ${a!==b}<br>`;
+    res += `${a} > ${b} → ${a>b}<br>`;
+    res += `${a} < ${b} → ${a<b}<br>`;
+    res += `${a} >= ${b} → ${a>=b}<br>`;
+    res += `${a} <= ${b} → ${a<=b}<br>`;
+    return res;
+}
+
+// ======= LOGICAL OPERATORS =======
+function performLogicalOperations(a,b){
+    let res="";
+    res += `${a}>0 && ${b}>0 → ${a>0 && b>0}<br>`;
+    res += `${a}>0 || ${b}>0 → ${a>0 || b>0}<br>`;
+    res += `!(${a}>0) → ${!(a>0)}<br>`;
+    return res;
+}
+
+// ======= DOM ELEMENTS =======
+const createCardBtn = document.getElementById('createCard');
+const calculateBtn = document.getElementById('calculate');
+const userCardContent = document.getElementById('userCardContent');
+const calculationResults = document.getElementById('calculationResults');
+
+// ======= CREATE USER CARD WITH VALIDATION =======
+createCardBtn.addEventListener('click', function(){
+    userName = document.getElementById('userName').value.trim();
+    userAge = parseInt(document.getElementById('userAge').value);
+
+    if(!userName){
+        alert("الرجاء إدخال الاسم!");
+        return;
+    }
+    if(isNaN(userAge) || userAge<0){
+        alert("الرجاء إدخال عمر صحيح!");
+        return;
+    }
+
+    const isAdult = userAge>=18;
+    const ageInMonths = userAge*12;
+    const greeting = "Welcome to our application!";
+
+    let cardHTML = `
+    <div class="result-item"><span class="highlight">${createWelcomeMessageTemplate(userName,userAge)}</span></div>
+    <div class="result-item">Are you an adult? <span class="highlight">${isAdult?'Yes':'No'}</span></div>
+    <div class="result-item">Age in months: <span class="highlight">${ageInMonths}</span></div>
+    <div class="result-item">Greeting: <span class="highlight">${greeting}</span></div>
+    `;
+    userCardContent.innerHTML = cardHTML;
+
+    console.log("=== USER INFORMATION ===");
+    console.log("Name:", userName, "Type:", typeof userName);
+    console.log("Age:", userAge, "Type:", typeof userAge);
+    console.log("Is Adult:", isAdult, "Type:", typeof isAdult);
+    console.log("Age in Months:", ageInMonths);
+    console.log("Greeting:", greeting);
+});
+
+// ======= PERFORM OPERATIONS WITH VALIDATION =======
+calculateBtn.addEventListener('click', function(){
+    const num1 = parseFloat(document.getElementById('number1').value);
+    const num2 = parseFloat(document.getElementById('number2').value);
+
+    if(isNaN(num1) || isNaN(num2)){
+        alert("الرجاء إدخال رقمين صحيحين!");
+        return;
+    }
+
+    const arithmetic = performArithmeticOperations(num1,num2);
+    const assignment = demonstrateAssignmentOperators(num1,num2);
+    const comparison = performComparisonOperations(num1,num2);
+    const logical = performLogicalOperations(num1,num2);
+
+    let resultsHTML = `
+    <h4>Arithmetic Operations:</h4>
+    <div class="result-item">Addition: ${arithmetic.addition}</div>
+    <div class="result-item">Subtraction: ${arithmetic.subtraction}</div>
+    <div class="result-item">Multiplication: ${arithmetic.multiplication}</div>
+    <div class="result-item">Division: ${arithmetic.division}</div>
+    <div class="result-item">Modulus: ${arithmetic.modulus}</div>
+    <div class="result-item">Exponentiation: ${arithmetic.exponentiation}</div>
+
+    <h4>Assignment Operators:</h4>
+    <div class="result-item">${assignment.replace(/<br>/g,'</div><div class="result-item">')}</div>
+
+    <h4>Comparison Operators:</h4>
+    <div class="result-item">${comparison.replace(/<br>/g,'</div><div class="result-item">')}</div>
+
+    <h4>Logical Operators:</h4>
+    <div class="result-item">${logical.replace(/<br>/g,'</div><div class="result-item">')}</div>
+    `;
+
+    calculationResults.innerHTML = resultsHTML;
+
+    console.log("=== OPERATION RESULTS ===");
+    console.log("First Number:", num1, "Second Number:", num2);
+    console.log("Arithmetic:", arithmetic);
+    console.log("Assignment:", assignment);
+    console.log("Comparison:", comparison);
+    console.log("Logical:", logical);
+});
+</script>
+</body>
+</html>
